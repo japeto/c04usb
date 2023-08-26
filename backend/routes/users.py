@@ -69,7 +69,7 @@ def auth():
             "message": "email or password required",
         }), 400
     
-    user = User.query.filter(email =data['email']).first()
+    user = User.query.filter_by(email = data['email']).first()
     if not(user):
         return jsonify({
             "message": "user not found",
@@ -83,7 +83,7 @@ def auth():
 
         return jsonify({
             "message": "success",
-            "token": token.decode('UTF-8')
+            "token": token
         }), 200
     
     return jsonify({
