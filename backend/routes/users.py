@@ -5,6 +5,7 @@ from dbmodels import db, User
 import jwt
 import uuid
 from werkzeug.security import generate_password_hash, check_password_hash
+from datetime import datetime, timedelta
 from functools import wraps
 
 def token_required(f):
@@ -46,17 +47,46 @@ def new_user():
     data = request.json
     try:
         a_user = User(
-            data['name'],
-            data['email'],
-            generate_password_hash(data['password'])
+            name=data['name'],
+            email=data['email'],
+            slug=str(uuid.uuid4()),
+            password=generate_password_hash(data['password'])
         )
-        a_user.slug = str(uuid.uuid4())
         db.session.add(a_user)
         db.session.commit()
         return jsonify({"message": "success", "slug":a_user.slug}),200
     except Exception as ex:
-        return 400, {
+        return jsonify({
             "message": "No saved",
             'error': str(ex)
-        }  
+        }), 400
+    
+@app.route ("/login",methods=['POST'])
+def auth():
+    data = request.json
+    if not('email' in data) or not('password' in data):
+        return jsonify({
+            "message": "email or password required",
+        }), 400
+    
+    user = User.query.filter(email =data['email']).first()
+    if not(user):
+        return jsonify({
+            "message": "user not found",
+        }), 404
+    
+    if check_password_hash(user.password, data['password']):
+        token = jwt.encode({
+            'slug':user.slug,
+            'exp' : datetime.utcnow() + timedelta(minutes = 30)
+        }, app.config['SECRET_KEY'])
+
+        return jsonify({
+            "message": "success",
+            "token": token.decode('UTF-8')
+        }), 200
+    
+    return jsonify({
+        "message": "could not verify, wrong password",
+    }), 200
     
