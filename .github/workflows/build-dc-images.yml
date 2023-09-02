@@ -60,9 +60,12 @@ jobs:
         working-directory: ./backend
         run: docker build -t ${{ secrets.DOCKER_USER }}/tienda_backend .
       
-      - name: push image to hub
+      - name: push SHA image to hub
         run:
             docker push ${{ secrets.DOCKER_USER }}/tienda_backend:${{ github.sha }}
+            
+      - name: push SHA image to hub
+        run:
             docker push ${{ secrets.DOCKER_USER }}/tienda_backend:latest
 
 
