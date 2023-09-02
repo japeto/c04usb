@@ -60,15 +60,15 @@ jobs:
         working-directory: ./backend
         run: docker build -t tienda_backend .
 
-      - name: Tag image
+      - name: Tag backend images
         run:
-            docker tag tienda_backend japeto/tienda_backend:${{ github.sha }}
-            docker tag tienda_backend japeto/tienda_backend:latest
+            docker tag tienda_backend ${{ secrets.DOCKER_USER }}/tienda_backend:${{ github.sha }}
+            docker tag tienda_backend ${{ secrets.DOCKER_USER }}/tienda_backend:latest
       
       - name: push image to hub
         run:
-            docker push tienda_backend japeto/tienda_backend:${{ github.sha }}
-            docker push tienda_backend japeto/tienda_backend:latest
+            docker push tienda_backend ${{ secrets.DOCKER_USER }}/tienda_backend:${{ github.sha }}
+            docker push tienda_backend ${{ secrets.DOCKER_USER }}/tienda_backend:latest
 
 
 
