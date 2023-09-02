@@ -11,6 +11,15 @@ jobs:
     runs-on: ubuntu-latest
     container:
       image: python
+    
+    services:
+      tienda_database:
+        image: postgres:13.0-alpine
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: ${{ secrets.POSTGRES_PASSWORD }}
+          POSTGRES_DB: postgres
+    
     steps:
       - uses: actions/checkout@v1
       - name: Install backend deps
