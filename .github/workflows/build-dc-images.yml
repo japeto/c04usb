@@ -30,6 +30,7 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - name: Install and test
+        working-directory: ./frontend
         run: |
           npm install
           npm test -- --watchAll=false
