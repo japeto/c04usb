@@ -62,8 +62,7 @@ jobs:
       
       - name: TAG images
         run:
-            docker tag docker.io/tienda_backend ${{ secrets.DOCKER_USER }}/tienda_backend:${{ github.sha }}
-            docker tag docker.io/tienda_backend ${{ secrets.DOCKER_USER }}/tienda_backend:latest
+            docker tag  docker.io/tienda_backend  ${{ secrets.DOCKER_USER }}/tienda_backend:latest
         
       - name: push image to hub
         run:
