@@ -32,7 +32,7 @@ jobs:
       - name: Install frontend deps
         working-directory: ./fontend
         run: 
-          npm install
+          ls
       # - name: Run frontend test
       #   working-directory: ./fontend
       #   run: 
