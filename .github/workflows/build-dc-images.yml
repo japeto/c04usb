@@ -28,14 +28,10 @@ jobs:
     container:
       image: node
     steps:
-      - uses: actions/checkout@v2
-      - name: Install frontend deps
-        working-directory: ./fontend
-        run: 
-          ls
-      # - name: Run frontend test
-      #   working-directory: ./fontend
-      #   run: 
-      #     npm test -- --watchAll=false
+      - uses: actions/checkout@v1
+      - name: Install and test
+        run: |
+          npm install
+          npm test -- --watchAll=false
 
   # cd: 
