@@ -7,10 +7,19 @@ const Home =()=>{
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
 
-  const sendLogin = ()=>{
-    if(!!email || !!password) return;
+  const sendLogin = (event)=>{
+    event.preventDefault();
+    // if(!!email || !!password) return;
     fetch("http://localhost:9030/login", {
-      method:'POST'
+      method:'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body:JSON.stringify({
+        "email": email,
+        "password": password
+      })
+    }).then(response => response.json())
+    .then(response=>{
+      localStorage.setItem("token", response.token)
     })
   }
 
@@ -18,7 +27,7 @@ const Home =()=>{
     <Card style={{ margin:'30px' }} className="justify-content-center align-items-center">
       <Card.Body >
           <div style={{ width:'100%', textAlign:'center' }} >
-            <form class="form" method="POST">
+            <form class="form" onSubmit={sendLogin}>
             <h1>Tienda CI/CD</h1>
             <span>
               Somos una Tienda de prueba para CI/CD
@@ -36,7 +45,7 @@ const Home =()=>{
               <hr/>
               <div className='row'>
                 <button className='btn btn-sm btn-primary col-9 mx-3' type='submit'>Acceder</button>
-                <button className='btn btn-sm btn-secondary col-1' type='submit'>?</button>
+                <button className='btn btn-sm btn-secondary col-1'>?</button>
               </div>
           </form>
         </div>
