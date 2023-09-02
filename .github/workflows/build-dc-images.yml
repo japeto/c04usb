@@ -56,14 +56,9 @@ jobs:
       - name: Docker login
         run: docker login -u ${{ secrets.DOCKER_USER }} -p ${{ secrets.DOCKER_PASS }}
 
-      - name: Docker build image
+      - name: Docker build and tag image
         working-directory: ./backend
-        run: docker build -t tienda_backend .
-
-      - name: Tag backend images
-        run:
-            docker tag tienda_backend ${{ secrets.DOCKER_USER }}/tienda_backend:${{ github.sha }}
-            docker tag tienda_backend ${{ secrets.DOCKER_USER }}/tienda_backend:latest
+        run: docker build -t ${{ secrets.DOCKER_USER }}/tienda_backend .
       
       - name: push image to hub
         run:
